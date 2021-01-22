@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+      integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh"
+      crossorigin="anonymous"
+    />
+  </head>
+  <body>
+    <div class="container">
+      <div class="row">
+        <div class="col-12 centralizado">
+          <div id="viewInput">
+            <h1 class="mb-3">Bem vindo ao Fundatec Alarm!</h1>
+            <div class="mb-3">
+              Informe em quantos segundos você gostaria de ser avisado:
+            </div>
+            <div>
+              <input id="txtSegundos" type="number" />
+              <span>Segundos</span>
+              <button id="btnComecar" class="btn btn-primary">Começar</button>
+            </div>
+          </div>
+          <div id="viewContagemRegressiva"></div>
+        </div>
+      </div>
+    </div>
+    <script>
+      document
+        .getElementById("btnComecar")
+        .addEventListener("click", function () {
+          let qtdSegundos = parseInt(
+            document.getElementById("txtSegundos").value
+          );
+
+          setTimeout(function () {
+            let mp3 = new Audio("acabou.mp3");
+            mp3.play();
+          }, qtdSegundos * 1000);
+
+          document.getElementById("viewInput").hidden = true;
+
+          function contagemRegressiva() {
+            document.getElementById("viewContagemRegressiva").innerText =
+              "Atenção, faltam " + qtdSegundos + " segundos!";
+            qtdSegundos--;
+          }
+
+          contagemRegressiva();
+
+          let idIntervalo = setInterval(function () {
+            contagemRegressiva();
+
+            if (qtdSegundos < 0) {
+              clearInterval(idIntervalo);
+              document.getElementById("viewContagemRegressiva").innerText =
+                "Acabou!";
+            }
+          }, 1000);
+        });
+    </script>
+    <style>
+      .centralizado {
+        text-align: center;
+      }
+
+      #viewContagemRegressiva {
+        font-size: 30px;
+        font-weight: bold;
+      }
+    </style>
+  </body>
+</html>
